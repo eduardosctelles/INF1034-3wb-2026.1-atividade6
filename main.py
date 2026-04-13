@@ -30,7 +30,16 @@ while running:
             key_pressed = ev.key
             if key_pressed == K_SPACE:
                 cor_fundo = 114, 47, 55
-    
+        if ev.type == MOUSEBUTTONDOWN:
+            if pos_sol < 300:
+                mixer.music.load('bom dia.mp3')
+                mixer.music.play()
+            if pos_sol > 300 and pos_sol < 800:
+                mixer.music.load('boa tarde.mp3')
+                mixer.music.play()
+            if pos_sol > 800:
+                mixer.music.load('boa noite.mp3')
+                mixer.music.play()
     #Update
     dt = clock.get_time()/1000   
     keys = key.get_pressed()
@@ -52,13 +61,10 @@ while running:
         pos_sol = 0
         cor_fundo = 151, 209, 250
     if pos_sol > 300:
-        #SE MOUSE CLICAR AQUI (TOCAR TAL AUDIO)
         cor_fundo = 237, 193, 100
     if pos_sol > 500:
         cor_fundo = 217, 164, 52
-        #SE MOUSE CLICAR AQUI (TOCAR OUTRO AUDIO)
     if pos_sol > 800:
-        #SE MOUSE CLICAR AQUI (TOCAR OUTRO AUDIO)
         cor_fundo = 219, 154, 15
 
     #Desenhar fonte
