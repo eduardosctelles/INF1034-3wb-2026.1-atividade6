@@ -18,7 +18,6 @@ window.fill(((151, 209, 250)))
 
 cor_fundo = 151, 209, 250
 a = 0
-b = 0
 pos_x = 300
 pos_sol = 0
 
@@ -48,7 +47,20 @@ while running:
     elif pos_x < 0:
         a = 0
     #Sol andando e mudando a cor do mundo
-    
+    pos_sol = pos_sol + 100 * dt
+    if pos_sol > 1020:
+        pos_sol = 0
+        cor_fundo = 151, 209, 250
+    if pos_sol > 300:
+        #SE MOUSE CLICAR AQUI (TOCAR TAL AUDIO)
+        cor_fundo = 237, 193, 100
+    if pos_sol > 500:
+        cor_fundo = 217, 164, 52
+        #SE MOUSE CLICAR AQUI (TOCAR OUTRO AUDIO)
+    if pos_sol > 800:
+        #SE MOUSE CLICAR AQUI (TOCAR OUTRO AUDIO)
+        cor_fundo = 219, 154, 15
+
     #Desenhar fonte
     fonte_texto = fonte.render('O hexa vem esse ano', True, (255, 0, 0))
     window.blit(fonte_texto, (800, 500))
