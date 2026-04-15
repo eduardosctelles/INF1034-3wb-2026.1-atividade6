@@ -9,6 +9,9 @@ fonte = font.Font('fonte.ttf', 50)
 
 imagem = image.load('image.jpg')
 
+bomdia = mixer.Sound('bom dia.mp3')
+boatarde = mixer.Sound('boa tarde.mp3')
+boanoite = mixer.Sound('boa noite.mp3')
 mixer.music.load('workshop.mp3')
 mixer.music.play(-1)
 
@@ -16,10 +19,12 @@ window = display.set_mode((1280,720))
 
 window.fill(((151, 209, 250)))
 
+estado = 0 
 cor_fundo = 151, 209, 250
 a = 0
 pos_x = 300
 pos_sol = 0
+pos_sol2 = 0
 
 while running:
     clock.tick(60)
@@ -28,23 +33,33 @@ while running:
             running = False
         if ev.type == KEYDOWN:
             key_pressed = ev.key
-            if key_pressed == K_SPACE:
-                cor_fundo = 114, 47, 55
+            #Sol muda de estado
+            if key_pressed == K_n:
+                estado = estado + 1
+            elif estado%2 == 0:
+                estado = 0 
         if ev.type == MOUSEBUTTONDOWN:
             if pos_sol < 300:
-                mixer.music.load('bom dia.mp3')
-                mixer.music.play()
+                mixer.Sound.play(bomdia)
             if pos_sol > 300 and pos_sol < 800:
-                mixer.music.load('boa tarde.mp3')
-                mixer.music.play()
+                mixer.Sound.play(boatarde)
             if pos_sol > 800:
-                mixer.music.load('boa noite.mp3')
-                mixer.music.play()
+                mixer.Sound.play(boanoite)
     #Update
     dt = clock.get_time()/1000   
     keys = key.get_pressed()
     window.fill(((cor_fundo)))
-    
+
+    #Sol anda com o teclado
+    if estado == 0 or estado%2 == 0:
+        if keys[K_d]:
+            pos_sol = pos_sol + 100 * dt
+        elif keys[K_a]:
+            pos_sol = pos_sol - 100 * dt
+    elif estado == 1:
+        mouse_x, mouse_y = mouse.get_pos()
+        pos_sol = mouse_x
+        pos_sol2 = mouse_y
     #Nuvem ficar andando
     if a == 0:
         pos_x = pos_x + 100 * dt
@@ -55,9 +70,8 @@ while running:
         a = a + 1
     elif pos_x < 0:
         a = 0
-    #Sol andando e mudando a cor do mundo
-    pos_sol = pos_sol + 100 * dt
-    if pos_sol > 1020:
+
+    if pos_sol > 1130:
         pos_sol = 0
         cor_fundo = 151, 209, 250
     if pos_sol > 300:
@@ -75,7 +89,7 @@ while running:
     #Grama
     draw.rect(window, (72, 157, 37), (0, 570, 1280, 150))
     #Sol
-    draw.circle(window, (255, 255, 0), (pos_sol, 0), (150))
+    draw.circle(window, (255, 255, 0), (pos_sol, pos_sol2), (150))
     #Nuvem
     draw.circle(window, (255, 255, 255), (pos_x, 100), (50))
     draw.circle(window, (255, 255, 255), (pos_x + 70, 100), (50))
